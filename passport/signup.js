@@ -1,10 +1,9 @@
 const LocalStrategy   = require('passport-local').Strategy;
-const User =require( '../models/user.js');
-const bCrypt  = require( 'bcrypt');
-const nodemailer = require("nodemailer")
+const User = require( '../models/user.js');
+const bCrypt = require( 'bcrypt');
+const transporter = require("../mailer.js")
 
 module.exports = function (passport){
-    const nodemailer = require("nodemailer")
 	passport.use('register', new LocalStrategy({
             passReqToCallback : true 
         },
@@ -22,21 +21,10 @@ module.exports = function (passport){
                     avatar : req.body.avatar,
 
                 };
-
-                const TEST_MAIL = "francesca.howell64@ethereal.email";
-
-                const transporter = nodemailer.createTransport({
-                    host: 'smtp.ethereal.email',
-                    port: 587,
-                    auth: {
-                        user: 'francesca.howell64@ethereal.email',
-                        pass: '1GKBq27swN2228NXE9'
-                    }
-                });
-                
+   
                 const mailOptions = {
                   from: "Servidor Node",
-                  to: TEST_MAIL,
+                  to: "francesca.howell64@ethereal.email",
                   subject: "Nuevo registro",
                   html: `<h1>Nuevo usuario:</h1>
                   <h2>Email: ${newUser.email}</h2>
@@ -63,11 +51,6 @@ module.exports = function (passport){
                         console.log(err);
                         done(err);
                     }
-
-
-
-
-        
         })
             
      );

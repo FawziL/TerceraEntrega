@@ -12,8 +12,6 @@ const config = require('./config/config')
 const mongo = config.mongodb
 const port = config.port
 
-
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 mongoose.connect(mongo);
@@ -21,7 +19,6 @@ mongoose.connect(mongo);
 const cookieParser = require("cookie-parser")
 const session = require("express-session")
 const MongoStore = require("connect-mongo")
-
 
 app.use(cookieParser());
 app.use(
@@ -42,8 +39,6 @@ app.use(
 
 app.use(express.static(`${__dirname}/public`));
 
- 
-////////////////////////////////////////////
 const serverExpress = app.listen(port, (error)=>{
     if(error){
         console.log(`Hubo un error: ${error}`)
@@ -51,7 +46,6 @@ const serverExpress = app.listen(port, (error)=>{
         console.log(`Servidor escuchando: ${port}`)
       }
 })
-////////////////////////////////////////////
 
 //Inicializo PASSPORT
 app.use(passport.initialize());
@@ -60,22 +54,18 @@ initPassport(passport);
 app.use("/", rutas);
 
 
-////////////////////////////////////////////
 const products = []
 const messages = []
 
-////GUARDAR CHAT EN EL ARCHIVO////////
 async function escribir(){
     try{
         await fs.promises.writeFile(path.join(__dirname,'/chat'), JSON.stringify(messages))
         console.log('El chat ha sido guardado')
     }catch(err){
-        console.log('no se pudo guardar el chat', err)
-        
+        console.log('no se pudo guardar el chat', err)  
     }
-
 }
-//// SOCKET IO  ////////
+
 const io = new IOServer(serverExpress)
 io.on('connection', socket =>{
     console.log(`Se conectó un usuario ${socket.id}`) 
@@ -84,9 +74,7 @@ io.on('connection', socket =>{
         products.push(objectInfo)
         io.emit('client:price:thumbnail', products)
     })
-
     io.emit('server:message', messages)
-    
     socket.on('client:message', messageInfo => {
         messages.push(messageInfo)
         escribir()
