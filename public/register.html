@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link
+     rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"/>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 </head>
 <body>
     <div class="form"> 
@@ -18,13 +22,49 @@
             <input type="text" name="nombre" placeholder="Nombre">
             <input type="text" name="dirección" placeholder="Dirección">
             <input type="number" name="edad" placeholder="Edad">
-            <input type="number" name="telf" placeholder="Telf">
-            <input type="text" name="avatar" placeholder="Avatar">
+            <input id="phone" type="tel" name="phone" placeholder="Telf">
+            <input type="file" name="image" placeholder="Avatar">
             <input id="SignupBtn" type="submit" class="boton" value="Registrarse">   
         </form>
         <button id="Login" onclick="goLogin()">Login</button>
     </div>
 
+    <script>
+      const phoneInputField = document.querySelector("#phone");
+      const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+          "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+      });
+    
+      const info = document.querySelector(".alert-info");  
+      const error = document.querySelector(".alert-error");
+
+
+      var registerForm = document.getElementById("registerForm");
+      
+
+      function sendForm(e) {
+        e.preventDefault();
+
+        const phoneNumber = phoneInput.getNumber();
+
+        info.style.display = "none";
+        error.style.display = "none";
+
+        if (phoneInput.isValidNumber()) {
+          info.style.display = "";
+          info.innerHTML = `Phone number in E.164 format: <strong>${phoneNumber}</strong>`;
+          phoneInputField.value = phoneNumber
+          registerForm.submit()
+        } else {
+          error.style.display = "";
+          error.innerHTML = `Invalid phone number.`;
+          return false
+        }
+      }
+      registerForm.addEventListener("submit", sendForm, true);
+
+    </script>
     <script>
         function redireccionar(pagina) {
         location.href = pagina;

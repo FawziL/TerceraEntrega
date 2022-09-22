@@ -3,9 +3,7 @@ const app = express()
 const {Server: IOServer} = require('socket.io')
 const passport = require("passport")
 const initPassport = require( './passport/init.js')
-const rutas = require( "./routes/index.js")(passport);
-const path = require('path')
-const fs = require('fs')
+const rutas = require( "./routes/index.js");
 const mongoose = require( "mongoose")
 require("dotenv").config()
 const config = require('./config/config')
@@ -55,16 +53,6 @@ app.use("/", rutas);
 
 
 const products = []
-const messages = []
-
-async function escribir(){
-    try{
-        await fs.promises.writeFile(path.join(__dirname,'/chat'), JSON.stringify(messages))
-        console.log('El chat ha sido guardado')
-    }catch(err){
-        console.log('no se pudo guardar el chat', err)  
-    }
-}
 
 const io = new IOServer(serverExpress)
 io.on('connection', socket =>{
@@ -73,12 +61,6 @@ io.on('connection', socket =>{
     socket.on('client:price:thumbnail', objectInfo => {
         products.push(objectInfo)
         io.emit('client:price:thumbnail', products)
-    })
-    io.emit('server:message', messages)
-    socket.on('client:message', messageInfo => {
-        messages.push(messageInfo)
-        escribir()
-        io.emit('server:message', messages)
     })
 })
 

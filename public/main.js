@@ -6,7 +6,6 @@ const inputPrice = document.getElementById('inputPrice');
 const inputEmail = document.getElementById('inputEmail');
 
 
-
 const logout = document.querySelector("#desloguear")
 
 logout.addEventListener('click', ()=>{
@@ -77,74 +76,3 @@ form.addEventListener('submit', event => {
 socket.on('client:price:thumbnail', productos=>{
     renderProducts(productos)
 });
-
-const formMessage = document.querySelector('#formMessage')
-const usernameInput = document.querySelector('#usernameInput')
-const nameInput = document.querySelector('#nameInput')
-const lastNameInput = document.querySelector('#lastNameInput')
-const ageInput = document.querySelector('#ageInput') 
-const nickInput = document.querySelector('#nickInput')
-const avatarInput = document.querySelector('#avatarInput')
-
-const messageInput = document.querySelector('#messageInput')
-const messagesPool = document.querySelector('#messagesPool')
-
-const tiempoTranscurrido = Date.now()
-const hoy = new Date(tiempoTranscurrido)
-const fecha= hoy.toLocaleDateString()
-const tiempo = new Date()
-const VenHora=tiempo.toLocaleTimeString('it-IT')
-
-function sendMessage() {
-    try {
-        
-        const email = usernameInput.value
-        const message = messageInput.value
-        const nombre = nameInput.value
-        const apellido = lastNameInput.value 
-        const edad = ageInput.value
-        const alias = nickInput.value
-        const avatar = avatarInput.value
-
-
-        mensajitos = { 
-            author: {
-                id: email, 
-                nombre: nombre, 
-                apellido: apellido, 
-                edad: edad, 
-                alias: alias,
-                avatar: avatar
-            },
-            text: message,
-        }
-        
-        socket.emit('client:message', {mensajitos})
-    } catch(error) {
-        console.log(`Hubo un error ${error}`)
-    }
-}
-
-function renderMessages(messagesArray) {
-    try {
-        const html = messagesArray.map(messageInfo => {
-            return(`<div>
-            <strong style="color: blue;" >${messageInfo.mensajitos.author.id}</strong>
-            [<span style="color: brown;">${fecha}, ${VenHora}</span>]:
-            <em style="color: green;font-style: italic;">${messageInfo.mensajitos.text}</em> </div>`)
-        }).join(" ");
-
-        messagesPool.innerHTML = html
-    } catch(error) {
-        console.log(`Hubo un error ${error}`)
-    }
-}
-
-formMessage.addEventListener('submit', event => {
-    event.preventDefault()
-    sendMessage()
-    messageInput.value = "" 
-})
-
-socket.on('server:message', renderMessages);
-

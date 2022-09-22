@@ -18,7 +18,7 @@ module.exports = function (passport){
                     dirección: req.body.dirección,
                     edad: req.body.edad,
                     telf: req.body.telf,
-                    avatar : req.body.avatar,
+                    avatar : req.body.image,
 
                 };
    

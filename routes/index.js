@@ -1,9 +1,9 @@
 const { Router } = require('express')
 const routes = Router()
+const passport = require ('passport') 
 const path = require('path')
 const isAuth = require ('../middlewares/isAuth.js');
-
-module.exports = function(passport){
+const upload = require ('../multer/loadFile.js')
 
 routes.get('/', isAuth,(req,res)=>{
   res.sendFile(path.join(__dirname, ".././public/home.html"))
@@ -30,13 +30,14 @@ routes.get('/fail-login',(req, res)=>{
 routes.get('/signup',(req, res)=>{
     res.sendFile(path.join(__dirname, ".././public/register.html")); 
 })
-routes.post('/signup',passport.authenticate('register',{ failureRedirect: '/fail-signup',failureMessage: true}),(req, res)=>{
+routes.post('/signup',upload.single('image'),passport.authenticate('register',
+{ failureRedirect: '/fail-signup',failureMessage: true}),(req, res)=>{
   res.sendFile(path.join(__dirname, ".././public/login.html"));  
 })
 routes.get('/fail-signup',(req, res)=>{
   res.sendFile(path.join(__dirname, ".././public/failsignup.html"));
 })
-routes.get('/logout', isAuth,   function(req, res, next) {
+routes.get('/logout', isAuth, function(req, res, next) {
   let user= req.user.email
   req.logout(function(err){  
     if (err)  return next(err); 
@@ -47,6 +48,5 @@ routes.get('/logout', isAuth,   function(req, res, next) {
         )
   })
 })
-return routes;
-}
 
+module.exports = routes
