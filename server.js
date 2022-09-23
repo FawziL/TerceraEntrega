@@ -35,7 +35,7 @@ app.use(
 )
 
 
-app.use(express.static(`${__dirname}/public`));
+
 
 const serverExpress = app.listen(port, (error)=>{
     if(error){
@@ -50,8 +50,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 initPassport(passport);
 app.use("/", rutas);
-
-
+app.use(express.static(__dirname + '/public'))
+/*
 const products = []
 
 const io = new IOServer(serverExpress)
@@ -64,4 +64,4 @@ io.on('connection', socket =>{
     })
 })
 
-
+*/

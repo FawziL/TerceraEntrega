@@ -30,7 +30,7 @@ routes.get('/fail-login',(req, res)=>{
 routes.get('/signup',(req, res)=>{
     res.sendFile(path.join(__dirname, ".././public/register.html")); 
 })
-routes.post('/signup',upload.single('image'),passport.authenticate('register',
+routes.post('/signup',upload.single('myFile'),passport.authenticate('register',
 { failureRedirect: '/fail-signup',failureMessage: true}),(req, res)=>{
   res.sendFile(path.join(__dirname, ".././public/login.html"));  
 })
