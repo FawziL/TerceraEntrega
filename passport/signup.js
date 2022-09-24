@@ -15,10 +15,10 @@ module.exports = function (passport){
                     email: req.body.username,
                     password: hashPassword(password),
                     nombre: req.body.nombre,
-                    dirección: req.body.dirección,
+                    address: req.body.address,
                     edad: req.body.edad,
                     telf: req.body.telf,
-                    avatar : req.body.image,
+                    avatar : `http://localhost:8080/image/${req.file.filename}`,
 
                 };
    
@@ -29,7 +29,7 @@ module.exports = function (passport){
                   html: `<h1>Nuevo usuario:</h1>
                   <h2>Email: ${newUser.email}</h2>
                   <h2>Nombre: ${newUser.nombre}</h2>
-                  <h2>Dirección: ${newUser.dirección}</h2>
+                  <h2>Dirección: ${newUser.address}</h2>
                   <h2>Edad: ${newUser.edad}</h2>
                   <h2>Telf: ${newUser.telf}</h2>
                   <h2>Avatar: ${newUser.avatar}</h2>`,

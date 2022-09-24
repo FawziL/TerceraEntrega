@@ -48,5 +48,9 @@ routes.get('/logout', isAuth, function(req, res, next) {
         )
   })
 })
+routes.get("/user", async (req, res) => {
+  res.render("userInfo", {email: req.user.email, nombre: req.user.nombre, 
+  avatar: req.user.avatar, edad: req.user.edad, telf: req.user.telf, address: req.user.address});
+});
 
-module.exports = routes
+module.exports = routes;

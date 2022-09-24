@@ -6,6 +6,6 @@ module.exports = mongoose.model('User', {
     nombre: String,
     dirección: String,
     edad: Number,
-    telf: Number,
+    telf: String,
     avatar : String,
 })

@@ -9,6 +9,8 @@ require("dotenv").config()
 const config = require('./config/config')
 const mongo = config.mongodb
 const port = config.port
+const  engine = require('express-handlebars')
+const path = require("path")
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -51,7 +53,20 @@ app.use(passport.session());
 initPassport(passport);
 app.use("/", rutas);
 app.use(express.static(__dirname + '/public'))
-/*
+
+app.engine(
+    "hbs",
+    engine({
+      extname: ".hbs",
+      defaultLayout: path.join(__dirname, '/public/views/layout/main.hbs'),
+    })
+  );
+app.set('views', path.join(__dirname, './public/views'))
+app.set('view engine', 'hbs')
+
+
+
+
 const products = []
 
 const io = new IOServer(serverExpress)
@@ -64,4 +79,4 @@ io.on('connection', socket =>{
     })
 })
 
-*/
+
