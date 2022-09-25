@@ -1,5 +1,7 @@
 const express = require('express')
+const { Server: HttpServer } = require('http')
 const app = express()
+const httpServer = new HttpServer(app)
 const {Server: IOServer} = require('socket.io')
 const passport = require("passport")
 const initPassport = require( './passport/init.js')
@@ -12,6 +14,10 @@ const mongo = config.mongodb
 const port = config.port
 const  engine = require('express-handlebars')
 const path = require("path")
+const cluster = require("cluster");
+const os = require("os");
+const cpus = os.cpus();
+const isCluster = process.argv[3] == "cluster";
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -36,22 +42,29 @@ app.use(
         }
     })
 )
-
-
-
-
-const serverExpress = app.listen(port, (error)=>{
-    if(error){
-        console.log(`Hubo un error: ${error}`)
-    }else{
-        console.log(`Servidor escuchando: ${port}`)
-      }
-})
-
 //Inicializo PASSPORT
 app.use(passport.initialize());
 app.use(passport.session());
 initPassport(passport);
+
+
+if(isCluster && cluster.isPrimary){
+    cpus.map(() => {
+      cluster.fork()
+   });
+  
+   cluster.on("exit", (worker) => {
+    console.log(`worker ${worker.process.pid} died`)
+    cluster.fork();
+  
+   });
+  } else{
+
+    const connectedServer = httpServer.listen(port, () => {
+      console.log(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
+
+
+
 app.use("/", rutas);
 app.use("/api", rutasApi);
 
@@ -72,7 +85,7 @@ app.set('view engine', 'hbs')
 
 const products = []
 
-const io = new IOServer(serverExpress)
+const io = new IOServer(connectedServer)
 io.on('connection', socket =>{
     console.log(`Se conectó un usuario ${socket.id}`) 
     io.emit('client:price:thumbnail', products)
@@ -81,5 +94,7 @@ io.on('connection', socket =>{
         io.emit('client:price:thumbnail', products)
     })
 })
-
+})
+}
+  
 

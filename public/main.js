@@ -6,30 +6,6 @@ const inputPrice = document.getElementById('inputPrice');
 const inputEmail = document.getElementById('inputEmail');
 
 
-const logout = document.querySelector("#desloguear")
-
-logout.addEventListener('click', ()=>{
-    console.log("bye")
-    location.href = '/logout'
-});
-
-async function insertUser(){
-    let userName
-    fetch('/data')
-     .then(user=>user.json())
-     .then(json=>userName= json)
-
-    const response = await fetch('/logIn.hbs')
-    const logInPlantilla= await response.text()
-    const template = Handlebars.compile(logInPlantilla)
-    const filled = template(userName) 
-    document.querySelector('#welcome').innerHTML += filled
-}
-
- insertUser()
- 
-
-
 function sendProducts (){
     try {
         const title = inputName.value;

@@ -17,7 +17,7 @@ module.exports = function (passport){
                     nombre: req.body.nombre,
                     address: req.body.address,
                     edad: req.body.edad,
-                    telf: req.body.telf,
+                    telf: req.body.phone,
                     avatar : `http://localhost:8080/image/${req.file.filename}`,
 
                 };

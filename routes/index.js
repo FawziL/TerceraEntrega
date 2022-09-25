@@ -6,7 +6,8 @@ const isAuth = require ('../middlewares/isAuth.js');
 const upload = require ('../multer/loadFile.js')
 
 routes.get('/', isAuth,(req,res)=>{
-  res.sendFile(path.join(__dirname, ".././public/home.html"))
+  res.render("userInfo", {email: req.user.email, nombre: req.user.nombre, 
+    avatar: req.user.avatar, edad: req.user.edad, telf: req.user.telf, address: req.user.address});
 })
 routes.get('/login',(req, res)=>{
   if(req.isAuthenticated()){
@@ -14,9 +15,6 @@ routes.get('/login',(req, res)=>{
   }else{
   res.sendFile(path.join(__dirname, ".././public/login.html")); 
   }    
-})
-routes.get('/data', isAuth, (req, res)=>{
-  res.json({email: req.user.email})
 })
 routes.post('/login',passport.authenticate('login',
   {failureRedirect: '/fail-login',failureMessage: true}),
@@ -48,9 +46,5 @@ routes.get('/logout', isAuth, function(req, res, next) {
         )
   })
 })
-routes.get("/user", async (req, res) => {
-  res.render("userInfo", {email: req.user.email, nombre: req.user.nombre, 
-  avatar: req.user.avatar, edad: req.user.edad, telf: req.user.telf, address: req.user.address});
-});
 
 module.exports = routes;
