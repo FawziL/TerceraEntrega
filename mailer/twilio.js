@@ -2,7 +2,7 @@ const twilio = require('twilio');
 const logger = require("../logger")
 
 const accountSid = "ACe7d8572cfb78a4aac73953a1ba9c9f93";
-const authToken = "a421c0e91a6cf98f9dc99c8d659928fe";
+const authToken = "76850aa1eba128bf4e3818615cd798a7";
 const toNumber = +584149541095;
 const client = twilio(accountSid, authToken);
 

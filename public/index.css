@@ -15,9 +15,9 @@ h1{
 }
 main{
     background-color: rgba(219, 217, 217, 0.812);
-    width: 1450px;
+    min-width: 400px;
     font-size: 20px;
-    padding: 10px;
+    padding: 20px;
     margin: 10px;
     border-style: solid;
 }
@@ -43,3 +43,4 @@ img{
     width: 300px;
     height: 200px;
 }
+

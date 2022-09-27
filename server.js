@@ -2,11 +2,9 @@ const express = require('express')
 const { Server: HttpServer } = require('http')
 const app = express()
 const httpServer = new HttpServer(app)
-const {Server: IOServer} = require('socket.io')
 const passport = require("passport")
 const initPassport = require( './passport/init.js')
 const rutas = require( "./routes/index.js");
-//const rutasApi = require( "./routes/api.js");
 const mongoose = require( "mongoose")
 require("dotenv").config()
 const config = require('./config/config')
@@ -17,7 +15,7 @@ const path = require("path")
 const cluster = require("cluster");
 const os = require("os");
 const cpus = os.cpus();
-const isCluster = process.argv[3] == "cluster";
+const isCluster = process.argv[2] == "cluster";
 const logger = require ("./logger.js");
 
 app.use(express.json())
@@ -61,14 +59,11 @@ if(isCluster && cluster.isPrimary){
    });
   } else{
 
-    const connectedServer = httpServer.listen(port, () => {
-      logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
-      console.log(`Servidor escuchando: ${port}`)
-
-
+const connectedServer = httpServer.listen(port, () => {
+  logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
+  console.log(`Servidor escuchando: ${port}`)
 
 app.use("/", rutas);
-//app.use("/api", rutasApi);
 
 app.use(express.static(__dirname + '/public'))
 
@@ -82,20 +77,6 @@ app.engine(
 app.set('views', path.join(__dirname, './public/views'))
 app.set('view engine', 'hbs')
 
-
-
-
-const products = []
-
-const io = new IOServer(connectedServer)
-io.on('connection', socket =>{
-    console.log(`Se conectó un usuario ${socket.id}`) 
-    io.emit('client:price:thumbnail', products)
-    socket.on('client:price:thumbnail', objectInfo => {
-        products.push(objectInfo)
-        io.emit('client:price:thumbnail', products)
-    })
-})
 })
 }
   

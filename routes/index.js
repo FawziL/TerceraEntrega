@@ -5,8 +5,8 @@ const path = require('path')
 const isAuth = require ('../middlewares/isAuth.js');
 const upload = require ('../multer/loadFile.js')
 
-//const handleAll = require ("../middlewares/loggerMdw.js")
-//routes.use(handleAll);
+const handleAll = require ("../middlewares/loggerMdw.js")
+routes.use(handleAll);
 
 routes.get("/", (req, res) => {
   if(req.isAuthenticated()){
