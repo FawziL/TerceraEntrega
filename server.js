@@ -6,7 +6,7 @@ const {Server: IOServer} = require('socket.io')
 const passport = require("passport")
 const initPassport = require( './passport/init.js')
 const rutas = require( "./routes/index.js");
-const rutasApi = require( "./routes/api.js");
+//const rutasApi = require( "./routes/api.js");
 const mongoose = require( "mongoose")
 require("dotenv").config()
 const config = require('./config/config')
@@ -68,7 +68,7 @@ if(isCluster && cluster.isPrimary){
 
 
 app.use("/", rutas);
-app.use("/api", rutasApi);
+//app.use("/api", rutasApi);
 
 app.use(express.static(__dirname + '/public'))
 

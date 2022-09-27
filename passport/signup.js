@@ -1,7 +1,7 @@
 const LocalStrategy   = require('passport-local').Strategy;
-const User = require( '../models/user.js');
+const User = require( '../models/usuario.js');
 const bCrypt = require( 'bcrypt');
-const transporter = require("../mailer.js")
+const transporter = require("../mailer/mailer.js")
 
 module.exports = function (passport){
 	passport.use('register', new LocalStrategy({
@@ -14,10 +14,10 @@ module.exports = function (passport){
                 const newUser = {
                     email: req.body.username,
                     password: hashPassword(password),
-                    nombre: req.body.nombre,
+                    name: req.body.name,
                     address: req.body.address,
-                    edad: req.body.edad,
-                    telf: req.body.phone,
+                    age: req.body.age,
+                    phone: req.body.phone,
                     avatar : `http://localhost:8080/image/${req.file.filename}`,
 
                 };
@@ -28,10 +28,10 @@ module.exports = function (passport){
                   subject: "Nuevo registro",
                   html: `<h1>Nuevo usuario:</h1>
                   <h2>Email: ${newUser.email}</h2>
-                  <h2>Nombre: ${newUser.nombre}</h2>
+                  <h2>Nombre: ${newUser.name}</h2>
                   <h2>Dirección: ${newUser.address}</h2>
-                  <h2>Edad: ${newUser.edad}</h2>
-                  <h2>Telf: ${newUser.telf}</h2>
+                  <h2>Edad: ${newUser.age}</h2>
+                  <h2>Telf: ${newUser.phone}</h2>
                   <h2>Avatar: ${newUser.avatar}</h2>`,
                 };
                 
