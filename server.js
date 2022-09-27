@@ -60,7 +60,7 @@ if(isCluster && cluster.isPrimary){
   } else{
 
 const connectedServer = httpServer.listen(8080, () => {
-  logger.info(`Servidor http escuchando en el puerto ${connectedServer.address()} - PID ${process.pid}`)
+  //logger.info(`Servidor http escuchando en el puerto ${connectedServer.address()} - PID ${process.pid}`)
   console.log(`Servidor escuchando: ${8080}`)
 
 app.use("/", rutas);
