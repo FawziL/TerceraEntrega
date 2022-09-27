@@ -18,6 +18,7 @@ const cluster = require("cluster");
 const os = require("os");
 const cpus = os.cpus();
 const isCluster = process.argv[3] == "cluster";
+const logger = require ("./logger.js");
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -61,7 +62,8 @@ if(isCluster && cluster.isPrimary){
   } else{
 
     const connectedServer = httpServer.listen(port, () => {
-      console.log(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
+      logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
+      console.log(`Servidor escuchando: ${port}`)
 
 
 

@@ -5,6 +5,9 @@ const path = require('path')
 const isAuth = require ('../middlewares/isAuth.js');
 const upload = require ('../multer/loadFile.js')
 
+const handleAll = require ("../middlewares/loggerMdw.js")
+routes.use(handleAll);
+
 routes.get('/', isAuth,(req,res)=>{
   res.render("userInfo", {email: req.user.email, nombre: req.user.nombre, 
     avatar: req.user.avatar, edad: req.user.edad, telf: req.user.telf, address: req.user.address});
