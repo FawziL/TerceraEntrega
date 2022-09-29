@@ -22,4 +22,6 @@ module.exports = {
       SECRET: process.env.SECRET
   },
   port: args.puerto ?? '8080',
+  accountSid: process.env.ACCOUNTSID, 
+  authToken: process.env.AUTHTOKEN,
 }

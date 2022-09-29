@@ -1,8 +1,9 @@
 const twilio = require('twilio');
 const logger = require("../logger")
-
-const accountSid = "ACe7d8572cfb78a4aac73953a1ba9c9f93";
-const authToken = "76850aa1eba128bf4e3818615cd798a7";
+require("dotenv").config()
+const config = require('../config/config.js')
+const accountSid = config.accountSid
+const authToken = config.authToken
 const toNumber = +584149541095;
 const client = twilio(accountSid, authToken);
 
@@ -27,7 +28,7 @@ const sendWhatsApp = async (order, user) => {
       .create({ 
           body: `Se ha realizado un nuevo pedido por el usuario ${user.name}, con el email: ${user.email} y el teléfono: ${user.phone} con el siguiente detalle: ${order}`, 
          from: 'whatsapp:+14155238886',       
-         to: 'whatsapp:+584149541095' 
+         to: `whatsapp:+584149541095` 
        }) 
       .then(message => console.log(message.sid)) 
       .done();
