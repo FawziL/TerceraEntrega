@@ -1,5 +1,5 @@
 const twilio = require('twilio');
-const logger = require("../logger")
+const logger = require("../utils/logger")
 require("dotenv").config()
 const config = require('../config/config.js')
 const accountSid = config.accountSid

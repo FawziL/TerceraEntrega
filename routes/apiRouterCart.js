@@ -1,7 +1,9 @@
 const { Router } = require('express')
 const routes = Router()
 const path = require('path')
-const {productosApi} = require("../daos/ProductosDaoMongoDb");
+const DaoFactory =require("../daos/daoFactory")
+const daoFactory = new DaoFactory();
+const productDao = daoFactory.createDao();
 const {carritosApi} = require("../daos/CarritosDaoMongoDb");
 const cartModel = require('../models/carrito')
 const userModel = require('../models/usuario')
@@ -30,7 +32,7 @@ routes.get("/carrito", async (req, res)  => {
   
 routes.post('/api/carrito/addProductos', async function(req, res){
     const user = req.user
-    const product = await productosApi.getById(req.body.productId)
+    const product = await productDao.getById(req.body.productId)
     let cart = await cartModel.findOne({ email: req.user.email })
     console.log(cart)
     if (!cart) {

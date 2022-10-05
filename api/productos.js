@@ -1,55 +1,34 @@
-class Productos {
-    constructor(modelo) {
-      this.collection = modelo;
-    }
-    
-    getAll = async () => {
-        try {
-            const allProducts = await this.collection.find().lean()
-            return allProducts   
-        } catch (error) {
-            return []
-        }
-
-    }
-    getById = async(id) => {
-        const doc = await this.collection.findById(id);
-        return doc || { error: 'producto no encontrado' }
-    }
-
-    save = async(producto) => {
-        try {
-            let product = new this.collection(producto).save()
-            return product
-        } catch (error) {
-            throw new Error(`Error al guardar: ${error}`)
-        }
-    }
+const DaoFactory =require("../daos/daoFactory")
+const daoFactory = new DaoFactory();
+const Product = daoFactory.createDao();
+const logger = require("../utils/logger")
 
 
-
-    updateProducts = async(product, id) => {
-            try {
-                const document = this.collection.findById(id);
-                const updatedProduct = await document.updateOne(product);
-                return updatedProduct
-            } catch (error) {
-                throw new Error(`Error al modificar: ${error}`)
-            }
-    
-    }
-    
-    deleteById = async(id)  =>{
-        try {
-            const document = this.collection.findById(id);
-            const deleteProduct = await document.deleteOne();
-            return deleteProduct
-        } catch (error) {
-            throw new Error(`Error al modificar: ${error}`)
-        }
-    } 
+const getAll = async () => {
+    try {
+        console.log("Hola3")
+        const products = await Product.getAll()
+        return products
+    } catch (error) {
+        console.log(error)
+        logger.error(`No estás autenticado: ${error}`)}
 }
 
 
+const getById = async () => {
+    res.json(await Product.getById(req.params.id))
+}
 
-module.exports =  Productos
+const createProduct = async (product) => {
+    return await Product.createProduct(product)
+}
+
+const updateProducts = async (product, productID) => {
+    return await Product.updateProducts(product, productID)
+}
+
+const deleteById = async (productID) => {
+    return await Product.deleteById(productID)
+}
+
+module.exports =  {getAll, getById, createProduct, updateProducts, deleteById}
