@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const routes = Router()
 const path = require('path')
-const {productosApi} = require("../daos/ProductosDaoMongoDb");
+const {productosApi} = require("../daos/index.dao");
 
 routes.get('/api/productos', async function (req, res) {
     if(req.isAuthenticated()){

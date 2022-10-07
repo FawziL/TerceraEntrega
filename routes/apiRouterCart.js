@@ -1,8 +1,8 @@
 const { Router } = require('express')
 const routes = Router()
 const path = require('path')
-const {productosApi} = require("../daos/ProductosDaoMongoDb");
-const {carritosApi} = require("../daos/CarritosDaoMongoDb");
+const {productosApi} = require("../daos/index.dao.js");
+const {carritosApi} = require("../daos/index.dao.js");
 const cartModel = require('../models/carrito')
 const userModel = require('../models/usuario')
 
