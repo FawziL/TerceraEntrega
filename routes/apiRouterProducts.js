@@ -1,7 +1,7 @@
 const { Router} = require('express');
 const router = Router()
 const auth = require("../middlewares/isAuth")
-const {getAll, getById, createProduct, updateProducts, deleteById} = require("../api/productos.js")
+const {getAll, getById, createProduct, updateProducts, deleteById} = require("../controllers/productos.controller.js")
 
  
 
