@@ -1,34 +1,56 @@
-const DaoFactory =require("../daos/daoFactory")
-const daoFactory = new DaoFactory();
-const Product = daoFactory.createDao();
-const logger = require("../utils/logger")
+const {productService} = require("../services/index.js")
 
-
-const getAll = async () => {
+const getAll = async (req, res) => {
     try {
-        console.log("Hola3")
-        const products = await Product.getAll()
-        return products
-    } catch (error) {
-        console.log(error)
-        logger.error(`No estás autenticado: ${error}`)}
-}
+      const products = await productService.getAll();
+      res.render('products', { products })
+      
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json(new WSresponse(null, "Internal server error", true, 500));
+    }
+  };
 
+  const createProduct = async (req, res) => {
+    try {
+        res.json(await productService.createProduct(req.body))
+      
+    } catch (err) {
+      console.log(err);
+      res.status(400).json(new WSresponse(null, err, true, 400));
+    }
+  };
 
-const getById = async () => {
-    res.json(await Product.getById(req.params.id))
-}
+  const updateProducts = async (req, res) => {
+    try {
+        res.json(await productService.updateProducts(req.body, req.params.id))
+      
+    } catch (err) {
+      console.log(err);
+      res.json(new WSresponse(null, err, true, 489));
+    }
+  }; 
 
-const createProduct = async (product) => {
-    return await Product.createProduct(product)
-}
+  const getById = async (req, res) => {
+    try {
+        res.json(await productService.getById(req.params.id))
+      
+    } catch (err) {
+      console.log(err);
+      res.json(new WSresponse(null, err, true, 460));
+    }
+  }; 
 
-const updateProducts = async (product, productID) => {
-    return await Product.updateProducts(product, productID)
-}
+  const deleteById = async (req, res) => {
+    try {
+        res.json(await productService.deleteById(req.params.id))
+      
+    } catch (err) {
+      console.log(err);
+      res.json(new WSresponse(null, err, true, 320));
+    }
+  }; 
 
-const deleteById = async (productID) => {
-    return await Product.deleteById(productID)
-}
-
-module.exports =  {getAll, getById, createProduct, updateProducts, deleteById}
+  module.exports =  {getAll, getById, createProduct, updateProducts, deleteById}
