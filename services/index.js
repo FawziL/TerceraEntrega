@@ -1,5 +1,5 @@
-const  productService =  require("./productos.service.js");
-
-module.exports = {productService} ;
+const productService =  require("./productos.service.js");
+const cartService = require("./carritos.service.js")
+module.exports = {productService, cartService} ;
 
 
