@@ -2,6 +2,7 @@ const LocalStrategy   = require('passport-local').Strategy;
 const User = require( '../models/usuario.js');
 const bCrypt = require( 'bcrypt');
 const transporter = require("../mailer/mailer.js")
+const {userService} = require("../services/index.js")
 
 module.exports = function (passport){
 	passport.use('register', new LocalStrategy({
@@ -9,7 +10,7 @@ module.exports = function (passport){
         },
         async (req, email, password, done)=> {
             try {	
-                const existingUser = await User.findOne({ 'email': email })
+                const existingUser = await userService.getUser(email);
                     if (existingUser) return done(null, false, 'Ya existe el usuario')
                 const newUser = {
                     email: req.body.username,
@@ -45,7 +46,7 @@ module.exports = function (passport){
                   console.log(error);
                 }                
 
-                const createdUser = await User.create(newUser);
+                const createdUser = await userService.createUser(newUser);
                     return done(null, createdUser);
                     } catch (err) {
                         console.log(err);

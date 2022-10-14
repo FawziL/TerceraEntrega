@@ -16,11 +16,10 @@ const getAll = async () => {
 const createCart = async (product) => {
     try {
         const usuario = await userModel.findOne({email: req.user.email})
-        await carritosApi.buyCart(usuario)
-        res.redirect('/api/productos');
+        return usuario
         }
         catch (error) {
-        res.status(404).json({ message: error.message })
+          console.log(error)
       }
 }
 
@@ -39,7 +38,7 @@ const addProducts = async (product, productID) => {
         }
         (await carritosApi.addProductToCart(cart.id, product))
     } catch (error) {
-        res.status(404).json({ message: error.message })
+      console.log(error)
       }
 }
 
@@ -51,10 +50,8 @@ const deleteProductsFromCart = async (productID) => {
             if (index > -1) {
                 productos.splice(index, 1);
             }
-            const updatedCart = await cart.updateOne({productos: productos});
-            res.redirect('/carrito');
       } catch (error) {
-        res.status(404).json({ message: error.message })
+        console.log(error)
       }
 }
 

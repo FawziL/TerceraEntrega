@@ -2,7 +2,7 @@ const ProductMongoDAO = require("./ProductosDaoMongoDb.js");
 
 class DaoFactory {
   createDao() {
-     return new ProductMongoDAO();
+     return ProductMongoDAO.getInstance();
   }
 }
 

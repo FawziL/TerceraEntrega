@@ -58,9 +58,7 @@ class ContenedorMongoDbCarrito {
     
 
     addProductToCart = async(cartId, product) =>{
-        //console.log(cartId)
         let cart = await this.getById(cartId)
-        //console.log(cart)
         if(product.id !== undefined) {
             try{
             let productos = cart.productos
