@@ -14,8 +14,8 @@ class pruebasAxios {
   async createProducts() {
     try {
       const response = await instance.post(`/api/productos`, {
-        nombre: "Frutos Rojos",
-        foto: "https://i.ibb.co/qn6BB6D/frutos-rojos.jpg",
+        nombre: "Computador",
+        foto: "https://www.punchtechnology.co.uk/wp-content/uploads/2020/05/DSC09974-600x600.jpg",
         precio: 2000,
       });
       console.log(response.data);
@@ -36,8 +36,8 @@ class pruebasAxios {
   async updateProducts(id){
     try {
       const response = await instance.put(`/api/productos/${id}`, {
-        nombre: "Frutos Rojos",
-        foto: "https://i.ibb.co/qn6BB6D/frutos-rojos.jpg",
+        nombre: "Computador",
+        foto: "https://www.punchtechnology.co.uk/wp-content/uploads/2020/05/DSC09974-600x600.jpg",
         precio: 3000,
       });
       console.log(response.data);
