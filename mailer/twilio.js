@@ -12,7 +12,7 @@ const sendNewOrder = async (order, user) => {
   try {
     const option = {
       to: toNumber,
-      from: +18649205080,
+      from: +12546137906,
       body: `Se ha realizado un nuevo pedido por el usuario ${user.name}, con el email: ${user.email} y el teléfono: ${user.phone} con el siguiente detalle: ${order}`,
     }
     const message = await client.messages.create(option)
