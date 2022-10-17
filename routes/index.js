@@ -6,11 +6,13 @@ const isAuth = require ('../middlewares/isAuth.js');
 const upload = require ('../multer/loadFile.js')
 const apiRouterProducts = require("./apiRouterProducts.js")
 const apiRouterCart = require("./apiRouterCart.js")
+const compression = require('compression')
 routes.use(apiRouterProducts);
 routes.use(apiRouterCart );
 
 const handleAll = require ("../middlewares/loggerMdw.js")
 routes.use(handleAll);
+routes.use(compression());
 
 routes.get("/", (req, res) => {
   if(req.isAuthenticated()){

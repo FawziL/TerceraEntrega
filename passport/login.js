@@ -1,6 +1,7 @@
 let LocalStrategy   = require('passport-local').Strategy;
 let User = require('../models/usuario');
 let bCrypt = require('bcrypt');
+const {userService} = require("../services/index.js")
 
 module.exports= function (passport){
 
@@ -9,12 +10,11 @@ module.exports= function (passport){
         },
         async (req, email, password, done) => {
         try { 
-            const user = await User.findOne({ 'email' :  email });
-            console.log("Se ha encontrado al usuario")
-
+            const user = await userService.getUser(email);
             if (!user || !isValidPassword(user, password)) {
                 return done("Invalid credentials", false);
             }
+            console.log("Se ha encontrado al usuario")
             return done(null, user);
             
         } catch (err) {
