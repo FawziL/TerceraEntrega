@@ -1,6 +1,6 @@
 const crypto = require ("crypto") ;
 const ProductoDaoFactory = require ('../daos/daoFactory.js') 
-const DAO = ProductoDaoFactory()
+const DAO = ProductoDaoFactory
 
 
 const createProducto = async ({ datos }) => {
