@@ -16,7 +16,9 @@ const cluster = require("cluster");
 const os = require("os");
 const cpus = os.cpus();
 const isCluster = process.argv[2] == "cluster";
-const logger = require("./utils/logger");
+const  { graphqlHTTP } = require( "express-graphql");
+const  productoController = require("./controllers/producto.graphql.controller.js")
+const  productoSchema = require( "./graphql/producto.schema.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -61,6 +63,20 @@ if (isCluster && cluster.isPrimary) {
     console.log(`Servidor escuchando: ${port}`);
 
     app.use("/", rutas);
+    app.use(
+      "/graphql",
+      graphqlHTTP({
+        schema: productoSchema,
+        rootValue: {
+          getProductos: productoController.getProductos,
+          getProducto: productoController.getProducto,
+          createProducto: productoController.createProducto,
+          updateProducto: productoController.updateProducto,
+          deleteProducto: productoController.deleteProducto,
+        },
+        graphiql: true,
+      })
+    );
 
     app.use(express.static(__dirname + "/public"));
 
