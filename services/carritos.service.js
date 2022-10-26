@@ -8,11 +8,11 @@ const Product = daoFactory.createDao();
 
 const getCart = async (email) => {
     try {
-      let productsInCart = await Cart.getProductsInCart(email)
-      if (!productsInCart) {
+        let productsInCart = await Cart.getProductsInCart(email)
+        if (!productsInCart) {
         Cart.save(email)
-      }
-      return productsInCart
+        }
+        return productsInCart
       } catch (error) {
         console.log(error)
       }
@@ -28,28 +28,22 @@ const createCart = async (email) => {
     }
 }
 
-const addProducts = async (req, res) => {
-  try {
-    const product = await Product.getById(req.body.productId)
-    const productAdd = await Cart.addProductToCart(req.user.email, product)
-    return productAdd
-  } catch (error) {
-    logger.error(`Error al iniciar carrito ${error}`);
+const addProducts = async (email, id) => {
+    try {
+      const product = await Product.getById(id)
+      await Cart.addProductToCart(email, product)
+    } catch (error) {
+      logger.error(`Error al iniciar carrito ${error}`);
   }
 }
 
-const deleteProductsFromCart = async (productID) => {
+const deleteProductsFromCart = async (email, id) => {
     try {
-        const cart = await cartModel.findOne({ email: req.user.email })
-        const productos = cart.productos
-        const index = productos.findIndex((prod)=> prod._id == req.params.id_prod)
-            if (index > -1) {
-                productos.splice(index, 1);
-            }
-      } catch (error) {
+      const productRemove = await Cart.removeProductFromCart(email, id)
+      return productRemove
+    } catch (error) {
         console.log(error)
-      }
+    }
 }
-
 
 module.exports =  {getCart, createCart, addProducts, deleteProductsFromCart}
