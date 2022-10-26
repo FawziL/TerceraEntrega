@@ -1,19 +1,18 @@
 const {DaoFactoryCart} =require("../daos/daoFactory")
 const daoFactoryCart = new DaoFactoryCart();
-  const Cart = daoFactoryCart.createDao();
+const Cart = daoFactoryCart.createDao();
   
-  const {DaoFactoryProduct} =require("../daos/daoFactory")
-  const daoFactory = new DaoFactoryProduct();
-  const Product = daoFactory.createDao();
+const {DaoFactoryProduct} =require("../daos/daoFactory")
+const daoFactory = new DaoFactoryProduct();
+const Product = daoFactory.createDao();
+
+const {cartService} = require("../services/index.js")
   
-  const logger = require("../utils/logger.js")
+const logger = require("../utils/logger.js")
   
-  const getAll = async (req, res) => {
+  const getUserCart = async (req, res) => {
     try {
-      let productsInCart = await Cart.getProductsInCart(req.user.email)
-      if (!productsInCart) {
-        Cart.save(req.user.email)
-      }
+      let productsInCart = await cartService.getCart(req.user.email)
       let valorInicial= 0
       const total = productsInCart.reduce((sum, product) => sum + product.price, valorInicial)
       res.render('cart', { productos: productsInCart, total: total })
@@ -22,11 +21,10 @@ const daoFactoryCart = new DaoFactoryCart();
     }
   };
   
-    const createCart = async (req, res) => {
+    const buyCart = async (req, res) => {
       try {
-        const usuario = await Cart.getByemail(req.user.email)
+        const usuario = await cartService.createCart(req.user.email)
         console.log(usuario)
-        await Cart.buyCart(usuario)
         res.redirect('/api/productos');
         }
         catch (error) {
@@ -52,4 +50,4 @@ const daoFactoryCart = new DaoFactoryCart();
       }
     }; 
   
-  module.exports =  {getAll, createCart, addProducts, deleteProductsFromCart}
+  module.exports =  {getUserCart, buyCart, addProducts, deleteProductsFromCart}

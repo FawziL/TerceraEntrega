@@ -1,45 +1,41 @@
 const {DaoFactoryCart} =require("../daos/daoFactory")
-const daoFactory = new DaoFactoryCart();
-const productDao = daoFactory.createDao();
-const {carritosApi} = require("../daos/index.js");
-const cartModel = require('../models/carrito')
-const userModel = require('../models/usuario')
+const daoFactoryCart = new DaoFactoryCart();
+const Cart = daoFactoryCart.createDao();
+const logger = require("../utils/logger.js")
+const {DaoFactoryProduct} =require("../daos/daoFactory")
+const daoFactory = new DaoFactoryProduct();
+const Product = daoFactory.createDao();
 
-const getAll = async () => {
+const getCart = async (email) => {
     try {
-      const products = await carritosApi.getAll()
-      return products
+      let productsInCart = await Cart.getProductsInCart(email)
+      if (!productsInCart) {
+        Cart.save(email)
+      }
+      return productsInCart
       } catch (error) {
         console.log(error)
       }
 }
-const createCart = async (product) => {
-    try {
-        const usuario = await userModel.findOne({email: req.user.email})
-        return usuario
-        }
-        catch (error) {
-          console.log(error)
-      }
+const createCart = async (email) => {
+  try{
+      const usuario = await Cart.getByemail(email)
+      await Cart.buyCart(usuario)
+      return usuario
+    }
+    catch (error) {
+      console.log(error)
+    }
 }
 
-const addProducts = async (product, productID) => {
-    try{
-        const user = req.user
-        const product = await productDao.getById(req.body.productId)
-        let cart = await cartModel.findOne({ email: req.user.email })
-        console.log(cart)
-        if (!cart) {
-          cart = new cartModel({
-            email: user.email,
-            products: [],
-          })
-          cart.save()
-        }
-        (await carritosApi.addProductToCart(cart.id, product))
-    } catch (error) {
-      console.log(error)
-      }
+const addProducts = async (req, res) => {
+  try {
+    const product = await Product.getById(req.body.productId)
+    const productAdd = await Cart.addProductToCart(req.user.email, product)
+    return productAdd
+  } catch (error) {
+    logger.error(`Error al iniciar carrito ${error}`);
+  }
 }
 
 const deleteProductsFromCart = async (productID) => {
@@ -56,4 +52,4 @@ const deleteProductsFromCart = async (productID) => {
 }
 
 
-module.exports =  {getAll, createCart, addProducts, deleteProductsFromCart}
+module.exports =  {getCart, createCart, addProducts, deleteProductsFromCart}
