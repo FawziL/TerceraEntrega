@@ -1,5 +1,5 @@
-const DaoFactory =require("../daos/daoFactory")
-const daoFactory = new DaoFactory();
+const {DaoFactoryCart} =require("../daos/daoFactory")
+const daoFactory = new DaoFactoryCart();
 const productDao = daoFactory.createDao();
 const {carritosApi} = require("../daos/index.js");
 const cartModel = require('../models/carrito')

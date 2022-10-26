@@ -1,9 +1,17 @@
 const ProductMongoDAO = require("./ProductosDaoMongoDb.js");
+const CartMongoDAO = require("./CarritosDaoMongoDb.js");
 
-class DaoFactory {
+class DaoFactoryProduct {
   createDao() {
      return ProductMongoDAO.getInstance();
   }
 }
+class DaoFactoryCart {
+  createDao() {
+     return CartMongoDAO.getInstance();
+  }
+}
 
-module.exports= DaoFactory;
+module.exports= {DaoFactoryProduct, DaoFactoryCart}
+
+

@@ -1,12 +1,12 @@
-const DaoFactory =require("../daos/daoFactory")
-const daoFactory = new DaoFactory();
+const {DaoFactoryProduct} =require("../daos/daoFactory")
+const daoFactory = new DaoFactoryProduct();
 const Product = daoFactory.createDao();
 const logger = require("../utils/logger")
 
 
 const getAll = async () => {
     try {
-        console.log("Hola3")
+        console.log("Hola")
         const products = await Product.getAll()
         return products
     } catch (error) {

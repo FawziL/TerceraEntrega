@@ -12,7 +12,7 @@ module.exports= function (passport){
         try { 
             const user = await userService.getUser(email);
             if (!user || !isValidPassword(user, password)) {
-                return done("Invalid credentials", false);
+                return done(false);
             }
             console.log("Se ha encontrado al usuario")
             return done(null, user);

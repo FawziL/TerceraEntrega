@@ -1,101 +1,112 @@
-const { sendNewOrder, sendWhatsApp }=require('../mailer/twilio.js')
+const Cart = require("../models/carrito");
+const CustomError = require("../utils/CustomError.js")
+const {sendWhatsApp }=require('../mailer/twilio.js')
+
+let instance;
 
 class ContenedorMongoDbCarrito {
-    constructor(modelo) {
-      this.collection = modelo
-    }
-    getAll = async () => {
-        try {
-            const allCarts = await this.collection.find()
-            return allCarts   
-        } catch (error) {
-            return []
-        }
-    }
+  constructor() { 
+    this.collection = Cart;
+  }
 
-    getById = async(id) => {
-        const carts = await this.collection.findById(id);
-        return carts || { error: 'carrito no encontrado' }
-    }
-    getProductsByCartId = async(cartId) =>{
-        try {
-            const user = req.user
-            const cart = await cartModel.findOne({ email: req.email })
-            if (!cart) {
-              cart = new Cart({
-                email: user.email,
-                products: [],
-              })
-              cart.save()
-            }
-          } catch (error) {
-            logger.info('error', error)
-            res.status(404).json({ message: error.message })
-          }
-    }
-
-
-    save = async(carrito) => {
-        try {
-            carrito.productos = []
-            let cart = new this.collection(carrito).save()
-            return cart
-        } catch (error) {
-            throw new Error(`Error al guardar: ${error}`)
-        }
-    }
-
-
-    deleteById = async(id)  =>{
-        try {
-            const document = this.collection.findById(id);
-            const deleteCart = await document.deleteOne();
-            return deleteCart
-        } catch (error) {
-            throw new Error(`Error al modificar: ${error}`)
-        }
-    } 
-    
-
-    addProductToCart = async(cartId, product) =>{
-        let cart = await this.getById(cartId)
-        if(product.id !== undefined) {
-            try{
-            let productos = cart.productos
-            productos.push(product)
-            const addProduct = await this.collection.findById(cartId).updateOne({productos: productos});
-            return addProduct
-                } catch (error) {
-                    throw new Error(`Error al modificar: ${error}`)
-        }} 
-
-    }
-    removeProductFromCart = async(cartId, productId) =>{
-        let cart = await this.getById(cartId)
-            try{
-            let productos = cart.productos
-            const index = productos.findIndex((prod)=> prod._id == productId)
-            if (index > -1) {
-                productos.splice(index, 1);
-            }
-            const addProduct = await this.collection.findById(cartId).updateOne({productos: productos});
-            return addProduct
-                } catch (error) {
-                    throw new Error(`Error al modificar: ${error}`)
-        }
-    }
-    buyCart = async (user) => {
-        let cart = await this.collection.findOne({email: user.email})
+addProductToCart = async(email, product) =>{
+    let cart = await this.getByemail(email)
+    if(product.id !== undefined) {
         try{
-            const orderArray = cart.productos
-            const order = JSON.stringify(orderArray);
-            await sendNewOrder(order, user)
-            await sendWhatsApp(order, user)
-        }catch (error) {
-            throw new Error(`${error}`)
-        }
+        let productos = cart.productos
+        productos.push(product)
+        const addProduct = await cart.updateOne({productos: productos});
+        return addProduct
+            } catch (error) {
+                throw new Error(`Error al modificar: ${error}`)
+    }}
+  } 
+
+ 
+getAll = async () => {
+    try {
+        const allCarts = await this.collection.find()
+        return allCarts   
+    } catch (error) {
+        return []
     }
-    
+  }
+
+save = async (email) =>{
+    try {
+      const doc = new this.collection({email:email, timestamp:Date.now(), productos:[]})
+      await doc.save() 
+      return doc       
+  } catch (error) {
+    throw new Error(`Error al modificar: ${error}`)
+  }
+   
+  }
+
+  getByemail = async(email) => {
+      const cart = await this.collection.findOne({ email: email });
+      return cart || { error: 'carrito no encontrado' }
+  }
+
+  getProductsInCart = async(email) =>{
+    try {
+        const cart = await this.getByemail(email)
+        if (!cart) {
+          cart = new this.collection({
+            email: email,
+            products: [],
+          }).save()
+        }
+        return cart.productos
+      } catch (error) {
+        logger.info('error', error)
+        throw new CustomError(500, "Error with cart ID")
+      }
+  }
+
+  deleteCartById = async(id)  =>{
+      try {
+          const document = this.collection.findById(id);
+          const deleteCart = await document.deleteOne();
+          return deleteCart
+      } catch (error) {
+          throw new Error(`Error al modificar: ${error}`)
+      }
+  } 
+
+  removeProductFromCart = async(email, productId) =>{
+    try{
+      let cart = await this.getByemail(email)
+      let productos = cart.productos
+      const index = productos.findIndex((prod)=> prod._id == productId)
+      if (index > -1) {
+          productos.splice(index, 1);}
+      const updatedCart = await cart.updateOne({productos: productos});
+      console.log(productId)
+      return updatedCart
+    } catch (error) {
+      throw new Error(`Error al modificar: ${error}`)
+    } 
+  }
+
+  buyCart = async (user) => {
+      let cart = await this.collection.findOne({email: user.email})
+      try{
+          const orderArray = cart.productos
+          const order = JSON.stringify(orderArray);
+          await sendWhatsApp(order, user)
+          await cart.updateOne({ $set: { productos: [] } })
+      }catch (error) {
+          throw new Error(`${error}`)
+      }
+  }
+
+  static getInstance() {
+    if (!instance) {
+      instance = new ContenedorMongoDbCarrito();
+    }
+    return instance;
+  }
 }
 
-module.exports =  ContenedorMongoDbCarrito
+module.exports = ContenedorMongoDbCarrito;
