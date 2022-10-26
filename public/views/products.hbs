@@ -16,13 +16,16 @@
 <body>
     {{> navbar }}
   <div class=" container d-flex flex-wrap mt-5">
-  {{#each products}}
+  {{#each products}} 
   <div class='card m-3' style='width: 18rem;'>
-    <img src='{{foto}}' class='card-img-top' alt='...' />
+    <img src='{{thumbnail}}' class='card-img-top' alt='...' />
     <div class='card-body'>
-      <h5 class='card-title'>{{nombre}}</h5>
-      <p class='card-text'>Precio: ${{precio}}</p>
-      <form action='/api/carrito/addProductos' method='POST'>
+      <h5 class='card-title'>{{title}}</h5>
+      <p class='card-text'>Precio: ${{price}}</p>
+      <p class='card-text'>{{description}}</p>
+      <p class='card-text'>Código: {{code}}</p>
+      <p class='card-text'>Stock: {{stock}}</p>
+      <form action='/api/carrito/addProductos' id="addProduct" method='POST'>
         <input type='hidden' name='productId' value='{{_id}}' /> 
         <button type='submit' class='btn btn-primary'>Agregar al carrito</button>
       </form>
@@ -30,6 +33,7 @@
 </div>
 {{/each}}
 </div>
+
 
 </body>
 </html>
