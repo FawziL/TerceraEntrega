@@ -15,7 +15,7 @@ const daoFactoryCart = new DaoFactoryCart();
         Cart.save(req.user.email)
       }
       let valorInicial= 0
-      const total = productsInCart.reduce((sum, product) => sum + product.precio, valorInicial)
+      const total = productsInCart.reduce((sum, product) => sum + product.price, valorInicial)
       res.render('cart', { productos: productsInCart, total: total })
     } catch (error) {
       logger.error(`Error al iniciar carrito ${error}`)
@@ -38,7 +38,7 @@ const daoFactoryCart = new DaoFactoryCart();
       try {
         const product = await Product.getById(req.body.productId)
         await Cart.addProductToCart(req.user.email, product)
-      } catch (err) {
+      } catch (error) {
         logger.error(`Error al iniciar carrito ${error}`);
       }
     }; 
