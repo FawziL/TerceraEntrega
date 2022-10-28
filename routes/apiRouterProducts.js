@@ -3,7 +3,7 @@ const router = Router()
 const auth = require("../middlewares/isAuth")
 const {getAll, getById, createProduct, updateProducts, deleteById} = require("../controllers/productos.controller.js")
  
-router.get('/api/productos',auth, getAll)
+router.get('/api/productos',getAll)
 
 router.post('/api/productos', createProduct)
 

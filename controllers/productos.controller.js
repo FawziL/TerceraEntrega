@@ -1,4 +1,5 @@
 const {productService} = require("../services/index.js")
+const logger = require("../utils/logger.js")
 
 const getAll = async (req, res) => {
     try {
@@ -6,10 +7,7 @@ const getAll = async (req, res) => {
       res.render('products', { products })
       
     } catch (err) {
-      console.log(err);
-      res
-        .status(500)
-        .json(new WSresponse(null, "Internal server error", true, 500));
+      logger.error(` ${err}`)
     }
   };
 
@@ -18,8 +16,7 @@ const getAll = async (req, res) => {
         res.json(await productService.createProduct(req.body))
       
     } catch (err) {
-      console.log(err);
-      res.status(400).json(new WSresponse(null, err, true, 400));
+      logger.error(` ${err}`)
     }
   };
 
@@ -28,8 +25,7 @@ const getAll = async (req, res) => {
         res.json(await productService.updateProducts(req.body, req.params.id))
       
     } catch (err) {
-      console.log(err);
-      res.json(new WSresponse(null, err, true, 489));
+      logger.error(` ${err}`)
     }
   }; 
 
@@ -38,8 +34,7 @@ const getAll = async (req, res) => {
         res.json(await productService.getById(req.params.id))
       
     } catch (err) {
-      console.log(err);
-      res.json(new WSresponse(null, err, true, 460));
+      logger.error(` ${err}`)
     }
   }; 
 
@@ -48,8 +43,7 @@ const getAll = async (req, res) => {
         res.json(await productService.deleteById(req.params.id))
       
     } catch (err) {
-      console.log(err);
-      res.json(new WSresponse(null, err, true, 320));
+      logger.error(` ${err}`)
     }
   }; 
 

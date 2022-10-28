@@ -50,7 +50,7 @@ describe("Test -- Productos", () => {
 
         expect(response.status).to.eql(200);
     });
-
+/*
     it("- GET a product by Id => /api/productos/id", async () => {
     response = await request
         .get(`/api/productos/${id}`)
@@ -65,5 +65,5 @@ describe("Test -- Productos", () => {
         .delete(`/api/productos/${id}`)
     expect(response.status).to.eql(200);
     });
-
+*/
 });

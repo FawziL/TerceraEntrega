@@ -15,8 +15,8 @@ const getAll = async () => {
 }
 
 
-const getById = async () => {
-    res.json(await Product.getById(req.params.id))
+const getById = async (id) => {
+    res.json(await Product.getById(id))
 }
 
 const createProduct = async (product) => {
