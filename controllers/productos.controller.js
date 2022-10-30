@@ -4,6 +4,16 @@ const logger = require("../utils/logger.js")
 const getAll = async (req, res) => {
     try {
       const products = await productService.getAll();
+      return res.json(products)
+      
+    } catch (err) {
+      logger.error(` ${err}`)
+    }
+  };
+
+  const renderProducts = async (req, res) => {
+    try {
+      const products = await productService.getAll();
       res.render('products', { products })
       
     } catch (err) {
@@ -47,4 +57,4 @@ const getAll = async (req, res) => {
     }
   }; 
 
-  module.exports =  {getAll, getById, createProduct, updateProducts, deleteById}
+  module.exports =  {getAll, getById, createProduct, updateProducts, deleteById, renderProducts}

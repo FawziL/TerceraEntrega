@@ -6,11 +6,9 @@ const logger = require("../utils/logger")
 
 const getAll = async () => {
     try {
-        console.log("Hola")
         const products = await Product.getAll()
         return products
     } catch (error) {
-        console.log(error)
         logger.error(`No estás autenticado: ${error}`)}
 }
 

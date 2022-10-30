@@ -1,9 +1,9 @@
 const { Router} = require('express');
 const router = Router()
 const auth = require("../middlewares/isAuth")
-const {getAll, getById, createProduct, updateProducts, deleteById} = require("../controllers/productos.controller.js")
+const {getAll, getById, createProduct, updateProducts, deleteById, renderProducts} = require("../controllers/productos.controller.js")
  
-router.get('/api/productos',getAll)
+router.get('/api/productos', renderProducts)
 
 router.post('/api/productos', createProduct)
 

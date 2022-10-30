@@ -48,7 +48,7 @@ describe("Test -- Productos", () => {
                     .put(`/api/productos/${id}`)
                     .send(productToCreate2);
 
-        expect(response.status).to.eql(200);
+        expect(response.status).to.eql(201);
     });
 /*
     it("- GET a product by Id => /api/productos/id", async () => {
