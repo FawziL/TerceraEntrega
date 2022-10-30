@@ -1,8 +1,8 @@
 const { Router } = require('express')
 const routes = Router()
-const {getUserCart, buyCart, addProducts, deleteProductsFromCart} = require("../controllers/carritos.controller.js")
+const {getUserCart, buyCart, addProducts, deleteProductsFromCart, renderUserCart} = require("../controllers/carritos.controller.js")
 
-routes.get("/carrito", getUserCart)
+routes.get("/carrito", renderUserCart)
   
 routes.post('/api/carrito/addProductos', addProducts)
   

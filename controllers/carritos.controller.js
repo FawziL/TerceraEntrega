@@ -4,12 +4,21 @@ const logger = require("../utils/logger.js")
 const getUserCart = async (req, res) => {
     try {
       let productsInCart = await cartService.getCart(req.user.email)
-      let valorInicial= 0
-      const total = productsInCart.reduce((sum, product) => sum + product.price, valorInicial)
-      res.render('cart', { productos: productsInCart, total: total })
+      return res.json(productsInCart)
     } catch (error) {
       logger.error(`Error al iniciar carrito ${error}`)
     }
+};
+
+const renderUserCart = async (req, res) => {
+  try {
+    let productsInCart = await cartService.getCart(req.user.email)
+    let valorInicial= 0
+    const total = productsInCart.reduce((sum, product) => sum + product.price, valorInicial)
+    res.render('cart', { productos: productsInCart, total: total })
+  } catch (error) {
+    logger.error(`Error al iniciar carrito ${error}`)
+  }
 };
   
 const buyCart = async (req, res) => {
@@ -42,7 +51,7 @@ const deleteProductsFromCart = async (req, res) => {
   }
     }; 
   
-  module.exports =  {getUserCart, buyCart, addProducts, deleteProductsFromCart}
+  module.exports =  {getUserCart, buyCart, addProducts, deleteProductsFromCart, renderUserCart}
 
 
 
