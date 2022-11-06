@@ -7,7 +7,6 @@ export class cartService {
 
   create(cart: cart): cart {
     this.carts.push(cart);
-
     return cart;
   }
 
