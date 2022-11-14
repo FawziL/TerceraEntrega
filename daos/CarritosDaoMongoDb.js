@@ -31,13 +31,13 @@ getAll = async () => {
     }
   }
 
-save = async (email) =>{
+save = async (email, address) =>{
     try {
-      const doc = new this.collection({email:email, timestamp:Date.now(), productos:[]})
+      const doc = new this.collection({email:email, timestamp:Date.now(),address:address, productos:[]})
       await doc.save() 
       return doc       
   } catch (error) {
-    throw new Error(`Error al modificar: ${error}`)
+    console.log(error)
   }
    
   }
@@ -51,10 +51,7 @@ save = async (email) =>{
     try {
         const cart = await this.getByemail(email)
         if (!cart) {
-          cart = new this.collection({
-            email: email,
-            products: [],
-          }).save()
+          cart = this.save(email)
         }
         return cart.productos
       } catch (error) {

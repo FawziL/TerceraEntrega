@@ -23,7 +23,7 @@ const renderUserCart = async (req, res) => {
   
 const buyCart = async (req, res) => {
   try{
-        const usuario = await cartService.createCart(req.user.email)
+        const usuario = await cartService.buyCart(req.user.email)
         console.log(`Ha sido creado tu carrito, ${usuario}` )
       }
       catch (error) {

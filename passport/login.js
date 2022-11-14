@@ -7,8 +7,9 @@ module.exports = function (passport){
 	passport.use('login', new LocalStrategy({
         passReqToCallback : true 
         },
-            async (email, password, done) => {
+            async (req, email, password, done) => {
             try { 
+                console.log("Comprobando credenciales")
                 const user = await userService.getUser(email);
                 if (!user || !isValidPassword(user, password)) {
                     return done(false);

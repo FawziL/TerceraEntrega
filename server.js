@@ -13,7 +13,10 @@ const path = require("path");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-mongoose.connect(config.mongodb);
+
+mongoose.connect(config.mongodb, () => {
+  console.log("Conectada la base de datos");
+});
 
 const cookieParser = require("cookie-parser");
 const session = require("express-session");

@@ -1,6 +1,5 @@
-const {DaoFactoryProduct} =require("../daos/daoFactory")
-const daoFactory = new DaoFactoryProduct();
-const Product = daoFactory.createDao();
+const DaoProduct = require("../daos/ProductosDaoMongoDb.js")
+const Product = DaoProduct.getInstance();
 const logger = require("../utils/logger")
 
 

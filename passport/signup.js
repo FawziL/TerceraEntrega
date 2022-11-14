@@ -1,4 +1,4 @@
-const LocalStrategy   = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 const bCrypt = require( 'bcrypt');
 const transporter = require("../mailer/mailer.js")
 const {userService} = require("../services/index.js")

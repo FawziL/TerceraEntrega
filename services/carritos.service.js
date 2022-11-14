@@ -1,10 +1,8 @@
-const {DaoFactoryCart} =require("../daos/daoFactory")
-const daoFactoryCart = new DaoFactoryCart();
-const Cart = daoFactoryCart.createDao();
+const DaoCart = require("../daos/CarritosDaoMongoDb")
+const Cart = DaoCart.getInstance();
 const logger = require("../utils/logger.js")
-const {DaoFactoryProduct} =require("../daos/daoFactory")
-const daoFactory = new DaoFactoryProduct();
-const Product = daoFactory.createDao();
+const DaoProduct = require("../daos/ProductosDaoMongoDb.js")
+const Product = DaoProduct.getInstance();
 
 const getCart = async (email) => {
     try {
@@ -17,7 +15,7 @@ const getCart = async (email) => {
         console.log(error)
       }
 }
-const createCart = async (email) => {
+const buyCart = async (email) => {
   try{
       const usuario = await Cart.getByemail(email)
       await Cart.buyCart(usuario)
@@ -46,4 +44,4 @@ const deleteProductsFromCart = async (email, id) => {
     }
 }
 
-module.exports =  {getCart, createCart, addProducts, deleteProductsFromCart}
+module.exports =  {getCart, buyCart, addProducts, deleteProductsFromCart}
