@@ -1,6 +1,5 @@
-const Cart = require("../models/carrito");
+const Cart = require("../models/cartModel.js");
 const CustomError = require("../utils/CustomError.js")
-const {sendWhatsApp }=require('../mailer/twilio.js')
 
 let instance;
 
@@ -94,7 +93,6 @@ save = async (email) =>{
       try{
           const orderArray = cart.productos
           const order = JSON.stringify(orderArray);
-          await sendWhatsApp(order, user)
           await cart.updateOne({ $set: { productos: [] } })
       }catch (error) {
           throw new Error(`${error}`)

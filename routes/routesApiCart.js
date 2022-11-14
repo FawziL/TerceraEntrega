@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const routes = Router()
-const {getUserCart, buyCart, addProducts, deleteProductsFromCart, renderUserCart} = require("../controllers/carritos.controller.js")
+const {getUserCart, buyCart, addProducts, deleteProductsFromCart, renderUserCart} = require("../controllers/cartController.js")
 
 routes.get("/carrito", renderUserCart)
   

@@ -1,4 +1,4 @@
-let User = require('../models/usuario');
+let User = require('../models/userModel.js');
    
 const getUser = async (email) => {
     try { 

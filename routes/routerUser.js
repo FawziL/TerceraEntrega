@@ -1,7 +1,7 @@
 const { Router} = require('express');
 const router = Router()
 const auth = require("../middlewares/isAuth")
-const {home, getAcount, login, failedLogin, signup, failedSignup, logout} = require("../controllers/user.controller.js")
+const {home, getAcount, chat, login, failedLogin, signup, failedSignup, logout} = require("../controllers/userController.js")
 const passport = require ('passport') 
 const upload = require ('../multer/loadFile.js')
 const isAuth = require ('../middlewares/isAuth.js');
@@ -9,6 +9,8 @@ const isAuth = require ('../middlewares/isAuth.js');
 router.get("/", home);
 
 router.get("/micuenta", auth, getAcount);
+
+router.get("/chat", auth, chat);
 
 router.get("/login", login);
 

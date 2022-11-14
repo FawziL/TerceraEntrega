@@ -7,20 +7,13 @@ const initPassport = require("./passport/init.js");
 const rutas = require("./routes/index.js");
 const mongoose = require("mongoose");
 require("dotenv").config();
-const config = require("./config/config");
-const mongo = config.mongodb;
-const port = config.port;
+const config = require("./config/config.js");
 const engine = require("express-handlebars");
 const path = require("path");
-const cluster = require("cluster");
-const os = require("os");
-const cpus = os.cpus();
-const isCluster = process.argv[2] == "cluster";
-const logger = require("./utils/logger");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-mongoose.connect(mongo);
+mongoose.connect(config.mongodb);
 
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -30,7 +23,7 @@ app.use(cookieParser());
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: mongo,
+      mongoUrl: config.mongodb,
     }),
     secret: "coderhouse",
     resave: false,
@@ -41,30 +34,17 @@ app.use(
     },
   })
 );
-//Inicializo PASSPORT
+
 app.use(passport.initialize());
 app.use(passport.session());
 initPassport(passport);
 
-if (isCluster && cluster.isPrimary) {
-  cpus.map(() => {
-    cluster.fork();
-  });
+httpServer.listen(config.port, () => {
+console.log(`Servidor escuchando: ${config.port}`);
 
-  cluster.on("exit", (worker) => {
-    console.log(`worker ${worker.process.pid} died`);
-    cluster.fork();
-  });
-} else {
-  const connectedServer = httpServer.listen(port, () => {
-    //logger.info(`Servidor http escuchando en el puerto ${connectedServer.address()} - PID ${process.pid}`)
-    console.log(`Servidor escuchando: ${port}`);
-
-    app.use("/", rutas);
-
-    app.use(express.static(__dirname + "/public"));
-
-    app.engine(
+  app.use("/", rutas);
+  app.use(express.static(__dirname + "/public"));
+  app.engine(
       "hbs",
       engine({
         extname: ".hbs",
@@ -74,4 +54,3 @@ if (isCluster && cluster.isPrimary) {
     app.set("views", path.join(__dirname, "./public/views"));
     app.set("view engine", "hbs");
   });
-}

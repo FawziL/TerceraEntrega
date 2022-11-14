@@ -41,8 +41,12 @@ const getAcount = async (req, res) => {
   const {email, name, address, age, phone, avatar} = req.user
   res.render('userInfo',{email, name, address, age, phone, avatar})
 };
+const chat = async (req, res) => {
+  const {name, avatar} = req.user
+  res.render('userInfo',{name, avatar})
+};
 
-module.exports =  {home, getAcount, login, failedLogin, signup, failedSignup, logout}
+module.exports =  {home, getAcount, chat, login, failedLogin, signup, failedSignup, logout}
 
 
 

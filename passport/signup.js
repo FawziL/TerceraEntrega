@@ -1,5 +1,4 @@
 const LocalStrategy   = require('passport-local').Strategy;
-const User = require( '../models/usuario.js');
 const bCrypt = require( 'bcrypt');
 const transporter = require("../mailer/mailer.js")
 const {userService} = require("../services/index.js")
@@ -56,7 +55,7 @@ module.exports = function (passport){
             
      );
             
-    // Encriptar Password (cifrado) usando bCrypt
+    // Encriptar password usando bCrypt
     function hashPassword(password){
         return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
     }  

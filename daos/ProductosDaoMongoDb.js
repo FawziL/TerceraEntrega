@@ -1,4 +1,4 @@
-const Product = require("../models/producto.js");
+const Product = require("../models/productModel.js");
 const CustomError = require("../utils/CustomError")
 
 
