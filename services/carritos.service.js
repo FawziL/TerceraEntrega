@@ -4,11 +4,11 @@ const logger = require("../utils/logger.js")
 const DaoProduct = require("../daos/ProductosDaoMongoDb.js")
 const Product = DaoProduct.getInstance();
 
-const getCart = async (email) => {
+const getCart = async (email, address) => {
     try {
-        let productsInCart = await Cart.getProductsInCart(email)
+        let productsInCart = await Cart.getProductsInCart(email, address)
         if (!productsInCart) {
-        Cart.save(email)
+        Cart.save(email, address)
         }
         return productsInCart
       } catch (error) {

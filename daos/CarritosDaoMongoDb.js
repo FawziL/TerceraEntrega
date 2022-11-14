@@ -41,17 +41,20 @@ save = async (email, address) =>{
   }
    
   }
-
+  getInfo = async(email, address) => {
+    const cart = await this.collection.findOne({ email: email, address: address });
+    return cart || { error: 'carrito no encontrado' }
+}
   getByemail = async(email) => {
       const cart = await this.collection.findOne({ email: email });
       return cart || { error: 'carrito no encontrado' }
   }
 
-  getProductsInCart = async(email) =>{
+  getProductsInCart = async(email, address) =>{
     try {
-        const cart = await this.getByemail(email)
+        const cart = await this.getInfo(email, address)
         if (!cart) {
-          cart = this.save(email)
+          cart = this.save(email, address)
         }
         return cart.productos
       } catch (error) {

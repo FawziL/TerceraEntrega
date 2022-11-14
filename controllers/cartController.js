@@ -12,7 +12,7 @@ const getUserCart = async (req, res) => {
 
 const renderUserCart = async (req, res) => {
   try {
-    let productsInCart = await cartService.getCart(req.user.email)
+    let productsInCart = await cartService.getCart(req.user.email, req.user.address)
     let valorInicial= 0
     const total = productsInCart.reduce((sum, product) => sum + product.price, valorInicial)
     res.render('cart', { productos: productsInCart, total: total })
