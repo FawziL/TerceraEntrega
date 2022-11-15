@@ -1,6 +1,5 @@
 const Cart = require("../models/cartModel.js");
 const CustomError = require("../utils/CustomError.js")
-
 let instance;
 
 class ContenedorMongoDbCarrito {
@@ -91,8 +90,6 @@ save = async (email, address) =>{
   buyCart = async (user) => {
       let cart = await this.collection.findOne({email: user.email})
       try{
-          const orderArray = cart.productos
-          const order = JSON.stringify(orderArray);
           await cart.updateOne({ $set: { productos: [] } })
       }catch (error) {
           throw new Error(`${error}`)

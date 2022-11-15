@@ -3,6 +3,8 @@ const Cart = DaoCart.getInstance();
 const logger = require("../utils/logger.js")
 const DaoProduct = require("../daos/ProductosDaoMongoDb.js")
 const Product = DaoProduct.getInstance();
+const DaoOrder = require("../daos/OrderDaoMongoDb.js")
+const Order = DaoOrder.getInstance();
 
 const getCart = async (email, address) => {
     try {
@@ -17,9 +19,12 @@ const getCart = async (email, address) => {
 }
 const buyCart = async (email) => {
   try{
-      const usuario = await Cart.getByemail(email)
-      await Cart.buyCart(usuario)
-      return usuario
+      const cart = await Cart.getByemail(email)
+      const orderArray = cart.productos
+      const order1 = orderArray
+      await Order.save(email, order1)
+      await Cart.buyCart(cart)
+      return cart
     }
     catch (error) {
       console.log(error)

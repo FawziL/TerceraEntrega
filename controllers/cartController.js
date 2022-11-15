@@ -24,7 +24,7 @@ const renderUserCart = async (req, res) => {
 const buyCart = async (req, res) => {
   try{
         const usuario = await cartService.buyCart(req.user.email)
-        console.log(`Ha sido creado tu carrito, ${usuario}` )
+        console.log(`Ha sido creada tu orden, ${usuario}` )
       }
       catch (error) {
           logger.error(`Error al iniciar carrito ${error}`);
