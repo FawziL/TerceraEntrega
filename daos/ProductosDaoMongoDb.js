@@ -57,6 +57,11 @@ try {
 }
 } 
 
+getByCategory = async(category) => {
+  const doc = await this.collection.find({category:category});
+  return doc || { error: 'producto no encontrado' }
+}
+
   static getInstance() {
     if (!instance) {
       instance = new ProductMongoDAO();

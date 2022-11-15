@@ -13,7 +13,7 @@ const getAll = async () => {
 
 
 const getById = async (id) => {
-    res.json(await Product.getById(id))
+    return await Product.getById(id)
 }
 
 const createProduct = async (product) => {
@@ -28,5 +28,9 @@ const deleteById = async (productID) => {
     return await Product.deleteById(productID)
 }
 
+const getByCategory = async (category) => {
+    return await Product.getByCategory(category)
+}
 
-module.exports =  {getAll, getById, createProduct, updateProducts, deleteById}
+
+module.exports =  {getAll, getById, createProduct, updateProducts, deleteById, getByCategory}

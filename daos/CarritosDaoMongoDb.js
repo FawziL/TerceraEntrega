@@ -42,11 +42,11 @@ save = async (email, address) =>{
   }
   getInfo = async(email, address) => {
     const cart = await this.collection.findOne({ email: email, address: address });
-    return cart || { error: 'carrito no encontrado' }
+    return cart 
 }
   getByemail = async(email) => {
       const cart = await this.collection.findOne({ email: email });
-      return cart || { error: 'carrito no encontrado' }
+      return cart 
   }
 
   getProductsInCart = async(email, address) =>{

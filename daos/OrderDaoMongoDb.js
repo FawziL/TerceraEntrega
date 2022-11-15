@@ -25,17 +25,17 @@ save = async (email, products) =>{
       const orders = await this.getAll()
       const numberOrder = orders.length + 1;
       const doc = new this.collection({email:email, timestamp:Date.now(), products:products, numberOrder: numberOrder})
-
+      const Productos = JSON.stringify(products)
       const mailOptions = {
         from: "Servidor Node",
         to: config.admin,
-        subject: "Nuevo Orden",
+        subject: `Nueva Orden ${numberOrder}`,
         html: 
         `
         <h1>Email: ${email}</h1>
         <h2>Fecha: ${Date.now()}</h2>
         <h2>Número de Orden: ${numberOrder}</h2>
-        <h2>Productos: ${products}</h2>
+        <h2>Productos: ${Productos}</h2>
         `,
       };
 

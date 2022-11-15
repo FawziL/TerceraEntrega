@@ -57,4 +57,12 @@ const getAll = async (req, res) => {
     }
   }; 
 
-  module.exports =  {getAll, getById, createProduct, updateProducts, deleteById, renderProducts}
+  const getByCategory = async (req, res) => {
+    try {
+      res.json(await productService.getByCategory(req.params.category))
+    } catch (err) {
+      logger.error(`No se encontro nada ${err}`)
+    }
+  }; 
+
+  module.exports =  {getAll, getById, createProduct, updateProducts, deleteById, renderProducts, getByCategory}
