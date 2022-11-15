@@ -2,6 +2,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const bCrypt = require( 'bcrypt');
 const transporter = require("../mailer/mailer.js")
 const {userService} = require("../services/index.js")
+require("dotenv").config();
+const config = require("../config/config.js");
 
 module.exports = function (passport){
 	passport.use('register', new LocalStrategy({
@@ -24,7 +26,7 @@ module.exports = function (passport){
    
                 const mailOptions = {
                   from: "Servidor Node",
-                  to: "francesca.howell64@ethereal.email",
+                  to: config.admin,
                   subject: "Nuevo registro",
                   html: `<h1>Nuevo usuario:</h1>
                   <h2>Email: ${newUser.email}</h2>

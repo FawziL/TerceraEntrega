@@ -1,4 +1,7 @@
 const order = require("../models/orderModel.js");
+const transporter = require("../mailer/mailer.js")
+require("dotenv").config();
+const config = require("../config/config.js");
 
 let instance;
 
@@ -22,6 +25,30 @@ save = async (email, products) =>{
       const orders = await this.getAll()
       const numberOrder = orders.length + 1;
       const doc = new this.collection({email:email, timestamp:Date.now(), products:products, numberOrder: numberOrder})
+
+      const mailOptions = {
+        from: "Servidor Node",
+        to: config.admin,
+        subject: "Nuevo Orden",
+        html: 
+        `
+        <h1>Email: ${email}</h1>
+        <h2>Fecha: ${Date.now()}</h2>
+        <h2>Número de Orden: ${numberOrder}</h2>
+        <h2>Productos: ${products}</h2>
+        `,
+      };
+
+      async function enviarInfo() {
+        const info = await transporter.sendMail(mailOptions);
+        console.log(info);
+      }
+      try {
+        enviarInfo()
+      } catch (error) {
+        console.log(error);
+      }   
+
       await doc.save() 
       return doc       
   } catch (error) {

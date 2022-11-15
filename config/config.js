@@ -6,4 +6,6 @@ module.exports = {
   port: '8080',
   accountSid: process.env.ACCOUNTSID, 
   authToken: process.env.AUTHTOKEN,
+  admin: process.env.ADMIN,
+  user: process.env.USER
 }
