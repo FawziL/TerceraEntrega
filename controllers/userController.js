@@ -3,7 +3,7 @@ const path = require('path')
 
 const home = async (req, res) => {
   if(req.isAuthenticated()){
-      res.redirect('/api/productos')
+      res.redirect('/productos')
   }else{
       res.sendFile(path.join(__dirname, "../public/login.html")); 
   }

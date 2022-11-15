@@ -44,7 +44,7 @@ const addProducts = async (req, res) => {
 const deleteProductsFromCart = async (req, res) => {
   try {
     await cartService.deleteProductsFromCart(req.user.email, req.params.id_prod)
-    res.redirect('/api/productos');
+    res.redirect('/productos');
   } 
   catch (error) {
     logger.error(`Error al eliminar producto: ${error}`)

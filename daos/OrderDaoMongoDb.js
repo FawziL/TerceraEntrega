@@ -19,7 +19,9 @@ getAll = async() => {
 
 save = async (email, products) =>{
     try {
-      const doc = new this.collection({email:email, timestamp:Date.now(), products:products})
+      const orders = await this.getAll()
+      const numberOrder = orders.length + 1;
+      const doc = new this.collection({email:email, timestamp:Date.now(), products:products, numberOrder: numberOrder})
       await doc.save() 
       return doc       
   } catch (error) {
@@ -39,23 +41,5 @@ static getInstance() {
     return instance;
   }
 }
-create = async(carrito)=>{  
-  try {
-      console.log('carrito.productos', carrito.productos)
-      const orden = new this.collection({
-          orderNumber:await this.nextOrderNumber(),
-          username:carrito.username,
-          address:carrito.address,
-          productos: carrito.productos, 
-          timestamp:Date.now(),
-          status:"generada",
-          productos: carrito.productos,
-      })
-      await orden.save() 
-      return new OrdenesDTO(orden);
-    } catch (error) {
-      console.log(error)
-    }
-    }
 
 module.exports = OrderMongoDAO;

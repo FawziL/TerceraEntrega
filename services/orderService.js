@@ -8,5 +8,12 @@ const getOrder = async (email, products) => {
     console.log(error);
   }
 };
+const getAll = async () => {
+  try {
+      const products = await Orders.getAll()
+      return products
+  } catch (error) {
+      logger.error(`No estás autenticado: ${error}`)}
+}
 
-module.exports = { getOrder };
+module.exports = { getOrder, getAll};
