@@ -10,10 +10,17 @@ const getOrder = async (email, products) => {
 };
 const getAll = async () => {
   try {
-      const products = await Orders.getAll()
-      return products
+      const orders = await Orders.getAll()
+      return orders
+  } catch (error) {
+      logger.error(`No estás autenticado: ${error}`)}
+}
+const getById = async (email) => {
+  try {
+      const orders = await Orders.getById(email)
+      return orders
   } catch (error) {
       logger.error(`No estás autenticado: ${error}`)}
 }
 
-module.exports = { getOrder, getAll};
+module.exports = { getOrder, getAll, getById};

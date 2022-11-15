@@ -2,11 +2,13 @@ const { Router } = require('express')
 const routes = Router()
 const routesApiProducts = require("./routesApiProducts.js")
 const routesApiCart = require("./routesApiCart.js")
+const routesApiOrder = require("./routesApiOrder.js")
 const routerUser = require("./routerUser.js")
 const compression = require('compression')
 
 routes.use(routesApiProducts);
 routes.use(routesApiCart);
+routes.use(routesApiOrder);
 routes.use(routerUser);
 
 const handleAll = require ("../middlewares/loggerMdw.js")

@@ -56,8 +56,8 @@ save = async (email, products) =>{
   }}
 
 
-getById = async(id) => {
-    const doc = await this.collection.findById(id);
+getById = async(email) => {
+    const doc = await this.collection.find({email:email});
     return doc || { error: 'order no encontrado' }
 }
 
