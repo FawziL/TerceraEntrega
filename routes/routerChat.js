@@ -5,5 +5,4 @@ const {getChat, getChatsByMail} = require("../controllers/chatController.js")
 routes.get('/chat', getChat)
 routes.get('/chat/:email', getChatsByMail)
 
-
 module.exports = routes;

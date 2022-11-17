@@ -14,7 +14,12 @@ const getAll = async (req, res) => {
   const renderOrders = async (req, res) => {
     try {
       const orders = await orderService.getAll();
-      res.render('orders', { orders })
+      if(orders.length == 0){
+        return res.json(["No hay ordenes"])
+      }else{
+        res.render('orders', { orders })
+      }
+      
       
     } catch (err) {
       logger.error(` ${err}`)

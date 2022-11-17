@@ -1,5 +1,4 @@
 const {chatService} = require("../services/index.js")
-const path = require('path')
 
 const getChatsByMail = async (req, res) => {
         try {
@@ -13,7 +12,7 @@ const getChatsByMail = async (req, res) => {
         }
 }
 const getChat = async (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/chats.html"))
+    res.render('chats')
 }
 
 module.exports = {getChatsByMail, getChat};

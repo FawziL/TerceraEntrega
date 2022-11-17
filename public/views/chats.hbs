@@ -9,15 +9,16 @@
       rel="stylesheet"
       integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
       crossorigin="anonymous" />
-    <title>WebChat</title>
+    <title>Chat</title>
   </head>
   <body>
+    {{> navbar}}
     <div class="container mt-5">
-    <h1>WebChat</h1>
+    <h1>Chat</h1>
     <div class="row">
       <div class="col-6">
         <form id="formMessage">
-          <input class=" form-control" id="usernameInput" type="email" placeholder="email de usuario" required />
+          <input class=" form-control" id="usernameInput" type="email" placeholder="Email de usuario" required />
           <input class=" form-control mt-3" id="messageInput" type="text" placeholder="Mensaje" required />
           <input type="submit" value="Enviar" class="btn btn-primary mt-3" />
         </form>
