@@ -1,4 +1,5 @@
 const Chat = require("../models/chatModel.js");
+const logger = require("../utils/logger.js")
 let instance;
 
 class ContenedorMongoDbChat {
@@ -10,18 +11,18 @@ async getAll(){
   try {
     const chats = await this.collection.find();
     return chats
-  } catch (error) {
-    throw new CustomError(500, error);
+  } catch (err) {
+    logger.error(` ${err}`)
   }
 }
 
 async create(email, message){
   try {
-    const userMessage = new this.collection({ email, message })
+    const userMessage = new this.collection({email:email, message:message, timestamp:Date.now()})
     await userMessage.save()
     return userMessage
-  } catch (error) {
-    throw new CustomError(500, error);
+  } catch (err) {
+    logger.error(` ${err}`)
   }           
 }
 
@@ -29,8 +30,8 @@ async getByEmail(email) {
   try {
     const chats = await this.collection.find({ email: email});
     return chats
-  } catch (error) {
-    throw new CustomError(500, error);
+  } catch (err) {
+    logger.error(` ${err}`)
   }
 }
 

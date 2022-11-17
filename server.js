@@ -58,17 +58,23 @@ console.log(`Servidor escuchando: ${config.port}`);
     app.set("view engine", "hbs");
   });
 
-  //const {chatService} = require("./services/index.js")
-  const messages = []
+  const {chatService} = require("./services/index.js")
+
   const {Server: IOServer} = require('socket.io')
   const io = new IOServer(server)
 
-  io.on('connection', socket =>{
-    console.log(`Se conectó un usuario ${socket.id}`) 
+  io.on('connection', async socket => {
+    console.log(`Se conecto un usuario ${socket.id}`)
+    const messages = await chatService.getChat()
+  
     io.emit('server:message', messages)
-    
-    socket.on('client:message', messageInfo => {
-        messages.push(messageInfo)
-        io.emit('server:message', messages)
+  
+    socket.on('client:message', async messageInfo => {
+      const { email, message } = messageInfo;
+      console.log(email)
+      console.log(message)
+      await chatService.create(email, message)
+      const messages = await chatService.getChat()
+      io.emit('server:message', messages)
     })
-})
+  })

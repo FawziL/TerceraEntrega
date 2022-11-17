@@ -15,7 +15,7 @@ const getByEmail = async (email) => {
 }
 const create = async(email, message) => {
     try {
-        const userMessage = Chat.create({ email, message })
+        const userMessage = await Chat.create(email, message)
         return userMessage
     } catch (error) {
       throw new CustomError(500, error);
