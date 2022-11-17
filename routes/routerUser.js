@@ -10,10 +10,6 @@ router.get("/", home);
 
 router.get("/micuenta", auth, getAcount);
 
-router.get("/chat", auth, chat);
-//router.get('/chat/:mail', this.controller.getChatsByMail)
-//router.get('/chat', this.controller.getChat)
-
 router.get("/login", login);
 
 router.post('/login',passport.authenticate('login',{failureRedirect: '/failedLogin',failureMessage: true}), home);

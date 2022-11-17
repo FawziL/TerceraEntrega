@@ -1,5 +1,4 @@
 const Chat = require("../models/chatModel.js");
-
 let instance;
 
 class ContenedorMongoDbChat {
@@ -7,37 +6,39 @@ class ContenedorMongoDbChat {
     this.collection = Chat;
 }
 
-getAll = async () => {
-    try {
-        const allMessages = await this.collection.find()
-        return allMessages   
-    } catch (error) {
-        return []
-    }
-  }
-
-save = async (email, message) =>{
-    try {
-      const doc = new this.collection({email:email, timestamp:Date.now(),message:message})
-      await doc.save() 
-      return doc       
+async getAll(){
+  try {
+    const chats = await this.collection.find();
+    return chats
   } catch (error) {
-    console.log(error)
+    throw new CustomError(500, error);
   }
-   
-  }
+}
 
-  getByEmail = async(email) => {
-      const messages = await this.collection.findOne({ email: email });
-      return messages || { error: 'chat no encontrado' }
-  }
+async create(email, message){
+  try {
+    const userMessage = new this.collection({ email, message })
+    await userMessage.save()
+    return userMessage
+  } catch (error) {
+    throw new CustomError(500, error);
+  }           
+}
 
-  static getInstance() {
-    if (!instance) {
-      instance = new ContenedorMongoDbChat();
-    }
-    return instance;
+async getByEmail(email) {
+  try {
+    const chats = await this.collection.find({ email: email});
+    return chats
+  } catch (error) {
+    throw new CustomError(500, error);
   }
+}
+
+static getInstance() {
+  if (!instance) instance = new ContenedorMongoDbChat();
+  return instance;
+}
+
 }
 
 module.exports = ContenedorMongoDbChat;

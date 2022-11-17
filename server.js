@@ -42,7 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 initPassport(passport);
 
-httpServer.listen(config.port, () => {
+const server = httpServer.listen(config.port, () => {
 console.log(`Servidor escuchando: ${config.port}`);
 
   app.use("/", rutas);
@@ -57,3 +57,18 @@ console.log(`Servidor escuchando: ${config.port}`);
     app.set("views", path.join(__dirname, "./public/views"));
     app.set("view engine", "hbs");
   });
+
+  //const {chatService} = require("./services/index.js")
+  const messages = []
+  const {Server: IOServer} = require('socket.io')
+  const io = new IOServer(server)
+
+  io.on('connection', socket =>{
+    console.log(`Se conectó un usuario ${socket.id}`) 
+    io.emit('server:message', messages)
+    
+    socket.on('client:message', messageInfo => {
+        messages.push(messageInfo)
+        io.emit('server:message', messages)
+    })
+})
